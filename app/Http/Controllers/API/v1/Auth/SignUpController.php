@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Notifications\VerifyUserEmail;
 use App\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Str;
 
@@ -35,6 +36,9 @@ class SignUpController extends Controller
         $user->save();
 
         $user->notify(new VerifyUserEmail());
+
+        $avatar = (new \Laravolt\Avatar\Avatar(config('laravolt.avatar')))->create($user->name)->getImageObject()->encode('png');
+        Storage::disk('public')->put('avatars/'.$user->id.'/avatar.png', $avatar);
 
         return response()->json([
             'data' => [

@@ -19,6 +19,7 @@ cp .env.example .env
 Change the values of the `.env` file as necessary.
 ```
 php artisan key:generate
+php artisan storage:link
 php artisan migrate:install
 php artisan migrate
 php artisan passport:install
@@ -47,6 +48,10 @@ PASSPORT_PUBLIC_KEY="-----BEGIN PUBLIC KEY-----
 ```
 After that you can remove private and public files from storage folder.
 
+Add public file system drive to `.env`
+```
+FILESYSTEM_DRIVER=public
+```
 
 ## Deploying app to production
 
