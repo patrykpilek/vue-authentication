@@ -31,7 +31,7 @@ class User extends Authenticatable
      * @var array
      */
     protected $hidden = [
-        'password', 'remember_token', 'email_activation_token'
+        'password', 'email_activation_token'
     ];
 
     /**
@@ -45,6 +45,6 @@ class User extends Authenticatable
 
     public function getAvatarUrlAttribute()
     {
-        return Storage::url('avatars/'.$this->id.'/'.$this->avatar);
+        return Storage::url('avatars/' . $this->avatar);
     }
 }

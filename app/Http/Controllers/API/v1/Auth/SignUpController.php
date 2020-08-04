@@ -26,10 +26,13 @@ class SignUpController extends Controller
             ], 400);
         }
 
+        $avatarName = Str::uuid() . '.png';
+
         $user = new User([
             'name' => $request->name,
             'email' => $request->email,
             'password' => bcrypt($request->password),
+            'avatar' => $avatarName,
             'email_activation_token' => Str::random(100)
         ]);
 
@@ -38,11 +41,12 @@ class SignUpController extends Controller
         $user->notify(new VerifyUserEmail());
 
         $avatar = (new \Laravolt\Avatar\Avatar(config('laravolt.avatar')))->create($user->name)->getImageObject()->encode('png');
-        Storage::disk('public')->put('avatars/'.$user->id.'/avatar.png', $avatar);
+        Storage::disk('public')->put('avatars/'. $avatarName, $avatar);
 
         return response()->json([
             'data' => [
-                'message' => 'Successfully created user!'
+                'success' => 'Successfully created account!',
+                'message' => 'Before sign in, please check your email to activate account.',
             ],
         ], 201);
     }
